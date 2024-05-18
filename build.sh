@@ -4,7 +4,7 @@ set -eux
 BUILD_USER_HOME="${BUILD_USER_HOME:-/build}"
 BUILD_USER_NAME="${BUILD_USER_NAME:-build}"
 # Debian release used during build
-DEBIAN_RELEASE="${DEBIAN_RELEASE:-stretch}"
+DEBIAN_RELEASE="${DEBIAN_RELEASE:-bookworm}"
 # Mattermost version to build
 MATTERMOST_RELEASE="${MATTERMOST_RELEASE:-v9.8.0}"
 MMCTL_RELEASE="${MMCTL_RELEASE:-v9.8.0}"
