@@ -7,7 +7,7 @@ BUILD_USER_NAME="${BUILD_USER_NAME:-build}"
 DEBIAN_RELEASE="${DEBIAN_RELEASE:-bookworm}"
 # Mattermost version to build
 MATTERMOST_RELEASE="${MATTERMOST_RELEASE:-v9.8.0}"
-MMCTL_RELEASE="${MMCTL_RELEASE:-v9.8.0}"
+MMCTL_RELEASE="${MMCTL_RELEASE:-v7.8.15}"
 # golang version
 GO_VERSION="${GO_VERSION:-1.22.3}"
 
@@ -95,7 +95,7 @@ fi
 # build mmctl
 install --directory "${HOME}/go/src/github.com/mattermost/mmctl"
 wget --quiet --continue --output-document="mmctl.tar.gz" \
-	"https://github.com/mattermost/mmctl/archive/${MMCTL_RELEASE}.tar.gz"
+	"https://github.com/mattermost/mmctl/archive/refs/tags/${MMCTL_RELEASE}.tar.gz"
 tar --directory="${HOME}/go/src/github.com/mattermost/mmctl" \
 	--strip-components=1 --extract --file="mmctl.tar.gz"
 find "${HOME}/go/src/github.com/mattermost/mmctl/" -type f -name '*.go' | xargs \
