@@ -74,16 +74,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # download and extract Mattermost sources
-for COMPONENT in server webapp; do
-	install --directory "${HOME}/go/src/github.com/mattermost/mattermost-${COMPONENT}"
-	wget --quiet --continue --output-document="mattermost-${COMPONENT}.tar.gz" \
-		"https://github.com/mattermost/mattermost-${COMPONENT}/archive/${MATTERMOST_RELEASE}.tar.gz"
-	tar --directory="${HOME}/go/src/github.com/mattermost/mattermost-${COMPONENT}" \
-		--strip-components=1 --extract --file="mattermost-${COMPONENT}.tar.gz"
-done
+install --directory "${HOME}/go/src/github.com/mattermost/mattermost"
+wget --quiet --continue --output-document="mattermost.tar.gz" \
+		"https://github.com/mattermost/mattermost/archive/${MATTERMOST_RELEASE}.tar.gz"
+tar --directory="${HOME}/go/src/github.com/mattermost/mattermost" \
+		--strip-components=1 --extract --file="mattermost.tar.gz"
 
 # install mattermost-webapp's required version of nodejs
-pushd "${HOME}/go/src/github.com/mattermost/mattermost-webapp"
+pushd "${HOME}/go/src/github.com/mattermost/mattermost/webapp"
 nvm install
 popd
 
