@@ -1,8 +1,8 @@
 module github.com/SmartHoneybee/ubiquitous-memory/dependabot
 
-go 1.18
+go 1.22.3
 
 require (
-	github.com/mattermost/mattermost-server/v6 v7.5.2
-	github.com/mattermost/mmctl v0.0.0-20211221153052-1bb2fec4c15e
+	github.com/mattermost/mattermost-server v9.8.0
+	github.com/mattermost/mmctl v7.8.15
 )
