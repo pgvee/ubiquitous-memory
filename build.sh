@@ -111,7 +111,7 @@ npm set progress false
 sed -i -e 's#--verbose#--display minimal#' \
 	"${HOME}/go/src/github.com/mattermost/mattermost/webapp/package.json"
 make --directory="${HOME}/go/src/github.com/mattermost/mattermost/webapp" \
-	build
+	dist
 # build Mattermost server
 patch --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
 	--strip=1 -t < "${HOME}/build-release.patch"
@@ -119,20 +119,20 @@ sed -i \
 	-e 's#go generate#env --unset=GOOS --unset=GOARCH go generate#' \
 	-e 's#$(GO) generate#env --unset=GOOS --unset=GOARCH go generate#' \
 	-e 's#PWD#CURDIR#' \
-	"${HOME}/go/src/github.com/mattermost/mattermost-server/Makefile" \
-	"${HOME}/go/src/github.com/mattermost/mattermost-server/build/release.mk"
+	"${HOME}/go/src/github.com/mattermost/mattermost/server/Makefile" \
+	"${HOME}/go/src/github.com/mattermost/mattermost/server/build/release.mk"
 make --directory="${HOME}/go/src/github.com/mattermost/mattermost-server" \
 	config-reset \
 	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
 	GO="GOARCH= GOOS= $(command -v go)" \
 	PLUGIN_PACKAGES=''
-make --directory="${HOME}/go/src/github.com/mattermost/mattermost-server" \
+make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
 	build-linux package-linux \
 	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
 	GO="GOARCH=$(go env GOARCH) GOOS=$(go env GOOS) $(command -v go)" \
 	PLUGIN_PACKAGES=''
 # rename archive and calculate its SHA512 sum
-mv "${HOME}/go/src/github.com/mattermost/mattermost-server/dist/mattermost-team-linux-amd64.tar.gz" \
+mv "${HOME}/go/src/github.com/mattermost/mattermost/server/dist/mattermost-team-linux-amd64.tar.gz" \
 	"${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz"
 sha512sum "${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz" | \
 	tee "${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz.sha512sum"
