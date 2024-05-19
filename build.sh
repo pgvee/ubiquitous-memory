@@ -121,7 +121,7 @@ sed -i \
 	-e 's#PWD#CURDIR#' \
 	"${HOME}/go/src/github.com/mattermost/mattermost/server/Makefile" \
 	"${HOME}/go/src/github.com/mattermost/mattermost/server/build/release.mk"
-make --directory="${HOME}/go/src/github.com/mattermost/mattermost-server" \
+make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
 	config-reset \
 	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
 	GO="GOARCH= GOOS= $(command -v go)" \
