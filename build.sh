@@ -110,7 +110,7 @@ make --directory="${HOME}/go/src/github.com/mattermost/mmctl" \
 npm set progress false
 sed -i -e 's#--verbose#--display minimal#' \
 	"${HOME}/go/src/github.com/mattermost/mattermost/webapp/package.json"
-make --directory="${HOME}/go/src/github.com/mattermost/mattermost/webapp" \
+make --directory="${HOME}/go/src/github.com/mattermost/mattermost" \
 	build-client
 # build Mattermost server
 patch --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
@@ -121,12 +121,12 @@ sed -i \
 	-e 's#PWD#CURDIR#' \
 	"${HOME}/go/src/github.com/mattermost/mattermost/server/Makefile" \
 	"${HOME}/go/src/github.com/mattermost/mattermost/server/build/release.mk"
-make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
+make --directory="${HOME}/go/src/github.com/mattermost/mattermost" \
 	config-reset \
 	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
 	GO="GOARCH= GOOS= $(command -v go)" \
 	PLUGIN_PACKAGES=''
-make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
+make --directory="${HOME}/go/src/github.com/mattermost/mattermost" \
 	build package \
 	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
 	GO="GOARCH=$(go env GOARCH) GOOS=$(go env GOOS) $(command -v go)" \
