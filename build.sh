@@ -22,11 +22,11 @@ if [ "$(id -u)" -eq 0 ]; then # as root user
 	set -e
 	# configure apt
 	printf 'APT::Install-Recommends "0";' \
-		> '/etc/apt/apt.conf.d/99-no-install-recommends'
+		>'/etc/apt/apt.conf.d/99-no-install-recommends'
 	printf 'APT::Install-Suggests "0";' \
-		> '/etc/apt/apt.conf.d/99-no-install-suggests'
+		>'/etc/apt/apt.conf.d/99-no-install-suggests'
 	printf 'APT::Get::Assume-Yes "true";' \
-		> '/etc/apt/apt.conf.d/99-assume-yes'
+		>'/etc/apt/apt.conf.d/99-assume-yes'
 	# update repositories
 	apt-get update
 	# dependencies to setup repositories
@@ -34,9 +34,9 @@ if [ "$(id -u)" -eq 0 ]; then # as root user
 		gnupg2 dirmngr apt-transport-https ca-certificates curl
 	# add required additional repositories
 	printf 'deb-src http://deb.debian.org/debian %s main' "${DEBIAN_RELEASE}" \
-		> "/etc/apt/sources.list.d/${DEBIAN_RELEASE}-source.list"
+		>"/etc/apt/sources.list.d/${DEBIAN_RELEASE}-source.list"
 	printf 'deb http://deb.debian.org/debian %s-backports main' "${DEBIAN_RELEASE}" \
-		> "/etc/apt/sources.list.d/${DEBIAN_RELEASE}-backports.list"
+		>"/etc/apt/sources.list.d/${DEBIAN_RELEASE}-backports.list"
 	# update repositories
 	apt-get update
 	# install dependencies
@@ -71,14 +71,14 @@ cd "${HOME}"
 # install NVM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # download and extract Mattermost sources
 install --directory "${HOME}/go/src/github.com/mattermost/mattermost"
 wget --quiet --continue --output-document="mattermost.tar.gz" \
-		"https://github.com/mattermost/mattermost/archive/${MATTERMOST_RELEASE}.tar.gz"
+	"https://github.com/mattermost/mattermost/archive/${MATTERMOST_RELEASE}.tar.gz"
 tar --directory="${HOME}/go/src/github.com/mattermost/mattermost" \
-		--strip-components=1 --extract --file="mattermost.tar.gz"
+	--strip-components=1 --extract --file="mattermost.tar.gz"
 
 # install mattermost-webapp's required version of nodejs
 pushd "${HOME}/go/src/github.com/mattermost/mattermost/webapp"
@@ -111,10 +111,10 @@ npm set progress false
 sed -i -e 's#--verbose#--display minimal#' \
 	"${HOME}/go/src/github.com/mattermost/mattermost/webapp/package.json"
 make --directory="${HOME}/go/src/github.com/mattermost/mattermost/webapp" \
-	dist
+	build-client
 # build Mattermost server
 patch --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
-	--strip=1 -t < "${HOME}/build-release.patch"
+	--strip=1 -t <"${HOME}/build-release.patch"
 sed -i \
 	-e 's#go generate#env --unset=GOOS --unset=GOARCH go generate#' \
 	-e 's#$(GO) generate#env --unset=GOOS --unset=GOARCH go generate#' \
@@ -127,12 +127,12 @@ make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
 	GO="GOARCH= GOOS= $(command -v go)" \
 	PLUGIN_PACKAGES=''
 make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
-	build-linux package-linux \
+	build package \
 	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
 	GO="GOARCH=$(go env GOARCH) GOOS=$(go env GOOS) $(command -v go)" \
 	PLUGIN_PACKAGES=''
 # rename archive and calculate its SHA512 sum
 mv "${HOME}/go/src/github.com/mattermost/mattermost/server/dist/mattermost-team-linux-amd64.tar.gz" \
 	"${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz"
-sha512sum "${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz" | \
+sha512sum "${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz" |
 	tee "${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz.sha512sum"
