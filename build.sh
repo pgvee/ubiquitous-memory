@@ -92,17 +92,26 @@ if [ "$(go env GOOS)_$(go env GOARCH)" != 'linux_amd64' ]; then
 		"${HOME}/go/bin/$(go env GOOS)_$(go env GOARCH)" \
 		"${HOME}/go/bin/linux_amd64"
 fi
+
+# setup preliminary stuff
+make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
+	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
+	GO="GOARCH=$(go env GOARCH) GOOS=$(go env GOOS) $(command -v go)" \
+	PLUGIN_PACKAGES='' \
+	setup-go-work
+
 # build mmctl
-# install --directory "${HOME}/go/src/github.com/mattermost/mattermost/server/cmd/mmctl"
-# find "${HOME}/go/src/github.com/mattermost/mattermost/server/cmd/mmctl" -type f -name '*.go' | xargs \
-# 	sed -i \
-# 	-e 's#//go:build linux || darwin#//go:build linux || darwin || dragonfly || freebsd || netbsd || openbsd#' \
-# 	-e 's#// +build linux darwin#// +build linux darwin dragonfly freebsd netbsd openbsd#'
-# make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
-# 	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MMCTL_RELEASE}" \
-# 	ADVANCED_VET=0 \
-# 	GO="GOARCH= GOOS= $(command -v go)" \
-# 	mmctl-build
+install --directory "${HOME}/go/src/github.com/mattermost/mattermost/server/cmd/mmctl"
+find "${HOME}/go/src/github.com/mattermost/mattermost/server/cmd/mmctl" -type f -name '*.go' | xargs \
+	sed -i \
+	-e 's#//go:build linux || darwin#//go:build linux || darwin || dragonfly || freebsd || netbsd || openbsd#' \
+	-e 's#// +build linux darwin#// +build linux darwin dragonfly freebsd netbsd openbsd#'
+make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
+	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MMCTL_RELEASE}" \
+	ADVANCED_VET=0 \
+	GO="GOARCH= GOOS= $(command -v go)" \
+	mmctl-build
+
 # build Mattermost webapp
 npm set progress false
 sed -i -e 's#--verbose#--display minimal#' \
