@@ -127,7 +127,7 @@ make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
 	GO="GOARCH= GOOS= $(command -v go)" \
 	PLUGIN_PACKAGES=''
 make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
-	build-linux package-linux \
+	build-linux-arm64 package-linux-arm64 \
 	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
 	GO="GOARCH=$(go env GOARCH) GOOS=$(go env GOOS) $(command -v go)" \
 	PLUGIN_PACKAGES=''
