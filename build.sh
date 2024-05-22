@@ -7,7 +7,7 @@ BUILD_USER_NAME="${BUILD_USER_NAME:-build}"
 DEBIAN_RELEASE="${DEBIAN_RELEASE:-bookworm}"
 # Mattermost version to build
 MATTERMOST_RELEASE="${MATTERMOST_RELEASE:-v9.8.0}"
-# MMCTL_RELEASE="${MMCTL_RELEASE:-v7.8.15}"
+# MATTERMOST_RELEASE="${MATTERMOST_RELEASE:-v7.8.15}"
 # golang version
 GO_VERSION="${GO_VERSION:-1.22.3}"
 
@@ -107,7 +107,7 @@ find "${HOME}/go/src/github.com/mattermost/mattermost/server/cmd/mmctl" -type f 
 	-e 's#//go:build linux || darwin#//go:build linux || darwin || dragonfly || freebsd || netbsd || openbsd#' \
 	-e 's#// +build linux darwin#// +build linux darwin dragonfly freebsd netbsd openbsd#'
 make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
-	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MMCTL_RELEASE}" \
+	BUILD_NUMBER="dev-$(go env GOOS)-$(go env GOARCH)-${MATTERMOST_RELEASE}" \
 	ADVANCED_VET=0 \
 	GO="GOARCH= GOOS= $(command -v go)" \
 	mmctl-build
