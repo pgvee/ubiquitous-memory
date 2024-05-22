@@ -138,7 +138,7 @@ make --directory="${HOME}/go/src/github.com/mattermost/mattermost/server" \
 	GO="GOARCH=$(go env GOARCH) GOOS=$(go env GOOS) $(command -v go)" \
 	PLUGIN_PACKAGES=''
 # rename archive and calculate its SHA512 sum
-mv "${HOME}/go/src/github.com/mattermost/mattermost/dist/mattermost-team-linux-amd64.tar.gz" \
-	"${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz"
+find "${HOME}/go/src/github.com/mattermost/" -regextype sed -regex ".*/mattermost-team-[a-zA-Z]*-[a-zA-Z0-9]*.tar.gz" -exec \
+	mv {} "${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz" \;
 sha512sum "${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz" |
 	tee "${HOME}/mattermost-${MATTERMOST_RELEASE}-$(go env GOOS)-$(go env GOARCH).tar.gz.sha512sum"
